@@ -3,7 +3,6 @@ name: Deploy Static Website to GitHub Pages
 on:
   push:
     branches: ["main"]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -24,14 +23,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload static site files
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload static files
+        uses: actions/upload-pages-artifact@v2
         with:
           path: ./
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v3
