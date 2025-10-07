@@ -1,6 +1,8 @@
-// Load Firebase via CDN and use global variables
+// ✅ Import Firebase modules (v9+ modular SDK)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// Your Firebase config
+// ✅ Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyB5VyoTwvMuUBUY9bfCnWvDagG3Z_kPdXU",
   authDomain: "alpha-413814.firebaseapp.com",
@@ -11,14 +13,13 @@ const firebaseConfig = {
   measurementId: "G-H24BWD5BPF"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// ✅ Initialize Firebase & Firestore
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-const db = firebase.firestore();
-
-// Example: Add data (call this from a button, not directly!)
+// Example: Add data
 async function addUserData() {
-  await db.collection("users").add({
+  await addDoc(collection(db, "users"), {
     name: "Pavan",
     role: "Admin",
     createdAt: new Date()
@@ -28,12 +29,13 @@ async function addUserData() {
 
 // Example: Read data
 async function readUserData() {
-  const querySnapshot = await db.collection("users").get();
+  const querySnapshot = await getDocs(collection(db, "users"));
   querySnapshot.forEach((doc) => {
     console.log(`${doc.id} =>`, doc.data());
   });
 }
 
-// Optionally expose these functions to window or call them from user actions
-// window.addUserData = addUserData;
-// window.readUserData = readUserData;
+// Optionally call functions:
+addUserData();
+readUserData();
+
